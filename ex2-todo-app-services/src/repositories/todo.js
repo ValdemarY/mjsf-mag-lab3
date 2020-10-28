@@ -3,11 +3,19 @@ export class ITodoRepository {
     throw new Error("Not implemented");
   }
 
+  delete() {
+    throw new Error("Not implemented");
+  }
+
   find() {
     throw new Error("Not implemented");
   }
 
   fetch() {
+    throw new Error("Not implemented");
+  }
+
+  update() {
     throw new Error("Not implemented");
   }
 
@@ -27,6 +35,17 @@ export class TodoLocalStorageRepository extends ITodoRepository {
     })
   }
 
+  delete(id){
+    return new Promise((resolve) =>{
+      let items = this.__getItems();
+      const res = items.filter((item) => {
+        return item.id !== id
+      });
+      localStorage.setItem("todos", JSON.stringify(res));
+      resolve(res);
+    })
+  }
+
   find(id) {
     return new Promise((resolve) => {
       let items = this.__getItems();
@@ -43,6 +62,18 @@ export class TodoLocalStorageRepository extends ITodoRepository {
   fetch() {
     return new Promise((resolve) => {
       resolve(this.__getItems());
+    })
+  }
+
+  update(model){
+    return new Promise((resolve) =>{
+      let items = this.__getItems();
+      const res = items.filter((item) => {
+        return item.id !== model.id
+      });
+      res.push(model);
+      localStorage.setItem("todos", JSON.stringify(res));
+      resolve(res);
     })
   }
 }
